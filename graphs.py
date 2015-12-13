@@ -1,5 +1,9 @@
 import Queue as q
 
+"""
+Note to reader: the public methods exist because Python doesn't allow method overloading
+"""
+
 graph = {'A': set(['B', 'C']),
          'B': set(['A', 'D', 'E']),
          'C': set(['A', 'F']),
@@ -9,7 +13,9 @@ graph = {'A': set(['B', 'C']),
          'G': set(['X', 'Y']),
          'X': set(['G', 'Z']),
          'Y': set(['G']),
-         'Z': set(['X'])}
+         'Z': set(['X']),
+         'J': set(['K']),
+         'K': set(['J'])}
 
 """
 DEPTH-FIRST SEARCH
@@ -66,6 +72,19 @@ def determineComponents(G):
             compSet.append(x)
     return compSet
 
+def publicDoesCycleExist(G, key):
+    print(doesCycleExist(G, key, set(), None))
+
+def doesCycleExist(G, key, visitedSet, previousNode):
+    visitedSet.add(key)
+    for item in G[key]:
+        if item not in visitedSet:
+            doesCycleExist(G, item, visitedSet, key)
+        elif item != previousNode and item in visitedSet:
+            return True
+
+    return False
+
 # print("DFS WITH C AS ROOT")
 # publicDFS(graph, 'C')
 # print("BFS WITH C AS ROOT")
@@ -74,5 +93,6 @@ def determineComponents(G):
 # print(publicIs_connected(graph, 'C', 'G'))
 # print(publicIs_connected(graph, 'B', 'C'))
 # print(publicIs_connected(graph, 'Z', 'G'))
-print("Determining Components")
-print(determineComponents(graph))
+# print("Determining Components")
+# print(determineComponents(graph))
+publicDoesCycleExist(graph, 'J')
