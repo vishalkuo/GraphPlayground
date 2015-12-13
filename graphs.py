@@ -11,8 +11,6 @@ graph = {'A': set(['B', 'C']),
          'Y': set(['G']),
          'Z': set(['X'])}
 
-
-
 """
 DEPTH-FIRST SEARCH
 """
@@ -58,13 +56,23 @@ def is_connected(G, key, visitedSet):
             is_connected(G, item, visitedSet)
     return visitedSet
 
+def determineComponents(G):
+    compSet = []
+    viableList = set(G.keys())
+    for item in G:
+        if item in viableList:
+            x = is_connected(G, item, set())
+            viableList = viableList - x
+            compSet.append(x)
+    return compSet
 
-
-print("DFS WITH C AS ROOT")
-publicDFS(graph, 'C')
-print("BFS WITH C AS ROOT")
-publicBFS(graph, 'C')
-print ("Connectivity test")
-print(publicIs_connected(graph, 'C', 'G'))
-print(publicIs_connected(graph, 'B', 'C'))
-print(publicIs_connected(graph, 'Z', 'G'))
+# print("DFS WITH C AS ROOT")
+# publicDFS(graph, 'C')
+# print("BFS WITH C AS ROOT")
+# publicBFS(graph, 'C')
+# print ("Connectivity test")
+# print(publicIs_connected(graph, 'C', 'G'))
+# print(publicIs_connected(graph, 'B', 'C'))
+# print(publicIs_connected(graph, 'Z', 'G'))
+print("Determining Components")
+print(determineComponents(graph))
