@@ -5,7 +5,11 @@ graph = {'A': set(['B', 'C']),
          'C': set(['A', 'F']),
          'D': set(['B']),
          'E': set(['B', 'F']),
-         'F': set(['C', 'E'])}
+         'F': set(['C', 'E']),
+         'G': set(['X', 'Y']),
+         'X': set(['G', 'Z']),
+         'Y': set(['G']),
+         'Z': set(['X'])}
 
 
 
@@ -40,8 +44,27 @@ def BFS(G, key, visitedSet, queue):
                 queue.put(item)
                 visitedSet.add(item)
 
+"""
+CONNECTIVITY
+"""
+def publicIs_connected(G, v, w):
+    x = is_connected(G, v, set())
+    return w in x
+
+def is_connected(G, key, visitedSet):
+    visitedSet.add(key)
+    for item in G[key]:
+        if item not in visitedSet:
+            is_connected(G, item, visitedSet)
+    return visitedSet
+
+
 
 print("DFS WITH C AS ROOT")
 publicDFS(graph, 'C')
 print("BFS WITH C AS ROOT")
 publicBFS(graph, 'C')
+print ("Connectivity test")
+print(publicIs_connected(graph, 'C', 'G'))
+print(publicIs_connected(graph, 'B', 'C'))
+print(publicIs_connected(graph, 'Z', 'G'))
