@@ -62,6 +62,10 @@ def is_connected(G, key, visitedSet):
             is_connected(G, item, visitedSet)
     return visitedSet
 
+"""
+Determine components of G
+"""
+
 def determineComponents(G):
     compSet = []
     viableList = set(G.keys())
@@ -72,6 +76,9 @@ def determineComponents(G):
             compSet.append(x)
     return compSet
 
+"""
+Does cycle exist in component specified
+"""
 def publicDoesCycleExist(G, key):
     return doesCycleExist(G, key, set(), None)
 
@@ -84,7 +91,9 @@ def doesCycleExist(G, key, visitedSet, previousNode):
             return True
 
     return False
-
+"""
+Is the component bipartite
+"""
 def publicBipartiteComponent(G, key):
     return is_bipartite(G, key, set(), q.Queue())
 
