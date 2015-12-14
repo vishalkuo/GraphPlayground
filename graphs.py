@@ -40,7 +40,7 @@ def publicBFS(G, key):
 def BFS(G, key, visitedSet, queue):
     visitedSet.add(key)
     queue.put(key)
-    while queue.qsize > 0:
+    while queue.qsize() > 0:
         v = queue.get()
         print v
         for item in G[v]:
@@ -73,7 +73,7 @@ def determineComponents(G):
     return compSet
 
 def publicDoesCycleExist(G, key):
-    print(doesCycleExist(G, key, set(), None))
+    return doesCycleExist(G, key, set(), None)
 
 def doesCycleExist(G, key, visitedSet, previousNode):
     visitedSet.add(key)
@@ -85,6 +85,35 @@ def doesCycleExist(G, key, visitedSet, previousNode):
 
     return False
 
+def publicBipartiteComponent(G, key):
+    return is_bipartite(G, key, set(), q.Queue())
+
+def is_bipartite(G, key, visitedSet, queue):
+    visitedSet.add(key)
+    count = 0
+    colorDict = {
+        #BlUE
+        False: set(),
+        #RED
+        True: set()
+    }
+
+    queue.put(key)
+    colorDict[count % 2 == 1].add(key)
+    count += 1
+    while queue.qsize() > 0:
+        v = queue.get()
+        for item in G[v]:
+            if item not in visitedSet:
+                queue.put(item)
+                visitedSet.add(item)
+                colorDict[count % 2 == 1].add(item)
+            elif item in colorDict[count % 2 == 0]:
+                return False
+        count += 1
+    return True
+
+
 # print("DFS WITH C AS ROOT")
 # publicDFS(graph, 'C')
 # print("BFS WITH C AS ROOT")
@@ -95,4 +124,6 @@ def doesCycleExist(G, key, visitedSet, previousNode):
 # print(publicIs_connected(graph, 'Z', 'G'))
 # print("Determining Components")
 # print(determineComponents(graph))
-publicDoesCycleExist(graph, 'J')
+# print(publicDoesCycleExist(graph, 'J'))
+print("Determing if Graph is Bipartite")
+print(is_bipartite(graph, 'A', set(), q.Queue()))
